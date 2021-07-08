@@ -3,8 +3,14 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios';
+axios.get('https://api.github.com/users/bverfurth')
+  .then((res) => {
+    console.log(res)
+    })
+  .catch((err) => console.log(err))
 
-/*
+  /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
     data in order to use it to build your component function
@@ -28,7 +34,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+// const followersArray = [];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +55,35 @@ const followersArray = [];
       </div>
     </div>
 */
+
+//  const followersArray = [
+//   'tetondan',
+//   'dustinmyers',
+//   'justsml',
+//   'luishrd',
+//   'bigknell'
+// ];
+
+// followersArray.forEach(person => {
+//   axios.get(`https://api.github.com/users/${person}`)
+//     .then((res) => {
+//       console.log(res)
+//       let userCard = 
+//   })
+// })
+
+function githubUsercard(singleObj) {
+  
+  const card = document.createElement('div')
+  card.classList.add('card')
+
+  const userAvatar = document.createElement('img')
+  userAvatar.setAttribute('src', singleObj.data.avatar_url)
+  card.appendChild(userAvatar)
+}
+
+
+
 
 /*
   List of LS Instructors Github username's:
