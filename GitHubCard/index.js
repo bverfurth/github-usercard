@@ -4,11 +4,17 @@
     https://api.github.com/users/<your name>
 */
 import axios from 'axios';
-axios.get('https://api.github.com/users/bverfurth')
-  .then((res) => {
-    console.log(res)
-    })
-  .catch((err) => console.log(err))
+const cards = document.querySelector('.cards')
+
+
+const myAccount = 'https://api.github.com/users/bverfurth'
+axios.get(myAccount)
+  .then(res => {
+    githubUsercard(res)
+  })
+  .catch((err => {
+    console.log(err)
+  })
 
   /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -37,23 +43,27 @@ axios.get('https://api.github.com/users/bverfurth')
 // const followersArray = [];
 
 const followersArray = [
-  'https://github.com/JamariaSims',
-  'https://github.com/BrandonWorobi',
-  'https://github.com/ShariqAli-Dev',
-  'https://github.com/SethBlakley',
-  'https://github.com/omtmn',
+  'https://api.github.com/users/JamariaSims',
+  'https://api.github.com/users/BrandonWorobi',
+  'https://api.github.com/users/ShariqAli-Dev',
+  'https://api.github.com/users/SethBlakley',
+  'https://api.github.com/users/omtmn',
 ];
 
-followersArray.forEach(friend => {
-    //substring - get username out of url
+function createCards(cardArray) {
+  cardArray.forEach(friend => {
     axios.get(`https://api.github.com/users/${friend}`)
       .then(res => {
         githubUsercard(res)
       })
-      .catch(res => console.log(err))
-  })
-    createCards(followersArray)
+      .catch(res => {
+        console.log(res)
+      });
+  });
+};
 
+createCards(followersArray);
+console.log(card);
     /*
       STEP 3: Create a function that accepts a single object as its only argument.
         Using DOM methods and properties, create and return the following markup:
@@ -76,52 +86,52 @@ followersArray.forEach(friend => {
 
     function githubUsercard(singleObj) {
   
-      const card = document.createElement('div')
-      card.classList.add('card')
+      const card = document.createElement('div');
+      card.classList.add('card');
 
-      const userAvatar = document.createElement('img')
-      userAvatar.setAttribute('src', singleObj.data.avatar_url)
-      card.appendChild(userAvatar)
+      const userPicture = document.createElement('img');
+      userPicture.setAttribute('src', singleObj.data.avatar_url);
+      card.appendChild(userPicture);
+        
+      const cardInfo = document.createElement('div');
+      cardInfo.classList.add('card-info');
+      card.appendChild(cardInfo);
 
-      const cardInfo = document.createElement('div')
-      cardInfo.classList.add('card-info')
-      card.appendChild(cardInfo)
+      const name = document.createElement('h3');
+      name.classList.add('name');
+      name.textContent = singleObj.data.name
+      cardInfo.appendChild(name);
 
-      const name = document.createElement('h3')
-      name.classList.add('name')
-      name.textContent = singleObj.data.login
-      cardInfo.appendChild(name)
-
-      const username = document.createElement('p')
-      username.classList.add('username')
+      const username = document.createElement('p');
+      username.classList.add('username');
       username.textContent = singleObj.data.login
-      card.appendChild(username)
+      card.appendChild(username);
 
-      const location = document.createElement('p')
+      const location = document.createElement('p');
       location.textContent = `Location: ${singleObj.data.location}`
-      cardInfo.appendChild(location)
+      cardInfo.appendChild(location);
 
-      const profile = document.createElement('p')
+      const profile = document.createElement('p');
       profile.textContent = `Profile:`
   
-      const profileLink = document.createElement('a')
-      profileLink.setAttribute('href', singleObj.data.html_url)
-      profileLink.appendChild(profileLink)
-      cardInfo.appendChild(profile)
+      const profileLink = document.createElement('a');
+      profileLink.setAttribute('href', singleObj.data.html_url);
+      profile.appendChild(profileLink);
+      cardInfo.appendChild(profile);
   
-      const followers = document.createElement('p')
+      const followers = document.createElement('p');
       followers.textContent = `Followers: ${singleObj.data.followers_url}`
-      cardInfo.appendChild(followers)
+      cardInfo.appendChild(followers);
 
-      const following = document.createElement('p')
+      const following = document.createElement('p');
       following.textContent = `Following: ${singleObj.data.following_url}`
-      cardInfo.appendChild(following)
+      cardInfo.appendChild(following);
 
-      const bio = document.createElement('p')
+      const bio = document.createElement('p');
       bio.textContent = `Bio: ${singleObj.data.bio}`
-      cardInfo.appendChild(bio)
+      cardInfo.appendChild(bio);
 
-      cards.appendChild(card)
+      cards.appendChild(card);
 
       return card
     }
