@@ -36,51 +36,96 @@ axios.get('https://api.github.com/users/bverfurth')
 
 // const followersArray = [];
 
-/*
-  STEP 3: Create a function that accepts a single object as its only argument.
-    Using DOM methods and properties, create and return the following markup:
+const followersArray = [
+  'https://github.com/JamariaSims',
+  'https://github.com/BrandonWorobi',
+  'https://github.com/ShariqAli-Dev',
+  'https://github.com/SethBlakley',
+  'https://github.com/omtmn',
+];
 
-    <div class="card">
-      <img src={image url of user} />
-      <div class="card-info">
-        <h3 class="name">{users name}</h3>
-        <p class="username">{users user name}</p>
-        <p>Location: {users location}</p>
-        <p>Profile:
-          <a href={address to users github page}>{address to users github page}</a>
-        </p>
-        <p>Followers: {users followers count}</p>
-        <p>Following: {users following count}</p>
-        <p>Bio: {users bio}</p>
-      </div>
-    </div>
-*/
+followersArray.forEach(friend => {
+    //substring - get username out of url
+    axios.get(`https://api.github.com/users/${friend}`)
+      .then(res => {
+        githubUsercard(res)
+      })
+      .catch(res => console.log(err))
+  })
+    createCards(followersArray)
 
-//  const followersArray = [
-//   'tetondan',
-//   'dustinmyers',
-//   'justsml',
-//   'luishrd',
-//   'bigknell'
-// ];
+    /*
+      STEP 3: Create a function that accepts a single object as its only argument.
+        Using DOM methods and properties, create and return the following markup:
+    
+        <div class="card">
+          <img src={image url of user} />
+          <div class="card-info">
+            <h3 class="name">{users name}</h3>
+            <p class="username">{users user name}</p>
+            <p>Location: {users location}</p>
+            <p>Profile:
+              <a href={address to users github page}>{address to users github page}</a>
+            </p>
+            <p>Followers: {users followers count}</p>
+            <p>Following: {users following count}</p>
+            <p>Bio: {users bio}</p>
+          </div>
+        </div>
+    */
 
-// followersArray.forEach(person => {
-//   axios.get(`https://api.github.com/users/${person}`)
-//     .then((res) => {
-//       console.log(res)
-//       let userCard = 
-//   })
-// })
-
-function githubUsercard(singleObj) {
+    function githubUsercard(singleObj) {
   
-  const card = document.createElement('div')
-  card.classList.add('card')
+      const card = document.createElement('div')
+      card.classList.add('card')
 
-  const userAvatar = document.createElement('img')
-  userAvatar.setAttribute('src', singleObj.data.avatar_url)
-  card.appendChild(userAvatar)
-}
+      const userAvatar = document.createElement('img')
+      userAvatar.setAttribute('src', singleObj.data.avatar_url)
+      card.appendChild(userAvatar)
+
+      const cardInfo = document.createElement('div')
+      cardInfo.classList.add('card-info')
+      card.appendChild(cardInfo)
+
+      const name = document.createElement('h3')
+      name.classList.add('name')
+      name.textContent = singleObj.data.login
+      cardInfo.appendChild(name)
+
+      const username = document.createElement('p')
+      username.classList.add('username')
+      username.textContent = singleObj.data.login
+      card.appendChild(username)
+
+      const location = document.createElement('p')
+      location.textContent = `Location: ${singleObj.data.location}`
+      cardInfo.appendChild(location)
+
+      const profile = document.createElement('p')
+      profile.textContent = `Profile:`
+  
+      const profileLink = document.createElement('a')
+      profileLink.setAttribute('href', singleObj.data.html_url)
+      profileLink.appendChild(profileLink)
+      cardInfo.appendChild(profile)
+  
+      const followers = document.createElement('p')
+      followers.textContent = `Followers: ${singleObj.data.followers_url}`
+      cardInfo.appendChild(followers)
+
+      const following = document.createElement('p')
+      following.textContent = `Following: ${singleObj.data.following_url}`
+      cardInfo.appendChild(following)
+
+      const bio = document.createElement('p')
+      bio.textContent = `Bio: ${singleObj.data.bio}`
+      cardInfo.appendChild(bio)
+
+      cards.appendChild(card)
+
+      return card
+    }
+  
 
 
 
