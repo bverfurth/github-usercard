@@ -133,9 +133,9 @@ console.log(card);
 
       cards.appendChild(card);
 
-      return card
-    }
-  
+  return card;
+}
+
 
 
 
